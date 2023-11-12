@@ -1,0 +1,70 @@
+
+package org.example;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+public class ClientTests {
+
+    @Mock
+    private Service service;
+
+    @Test
+    public void greeting_shouldReturnUpperCaseGreeting_whenNameLengthIsEven() {
+        // Arrange
+        String name = "John";
+        when(service.isEven(name.length())).thenReturn(true);
+        Client client = new Client(service);
+
+        // Act
+        String result = client.greeting(name);
+
+        // Assert
+        assertThat(result).isEqualTo("HELLO, JOHN");
+    }
+
+    @Test
+    public void greeting_shouldReturnGreeting_whenNameLengthIsOdd() {
+        // Arrange
+        String name = "Jane";
+        when(service.isEven(name.length())).thenReturn(false);
+        Client client = new Client(service);
+
+        // Act
+        String result = client.greeting(name);
+
+        // Assert
+        assertThat(result).isEqualTo("Hello, Jane");
+    }
+
+    @Test
+    public void greeting_shouldThrowIllegalArgumentException_whenNameIsNull() {
+        // Arrange
+        String name = null;
+        Client client = new Client(service);
+
+        // Act & Assert
+        assertThatThrownBy(() -> client.greeting(name))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'name' must not be null or empty");
+    }
+
+    @Test
+    public void greeting_shouldThrowIllegalArgumentException_whenNameIsEmpty() {
+        // Arrange
+        String name = "";
+        Client client = new Client(service);
+
+        // Act & Assert
+        assertThatThrownBy(() -> client.greeting(name))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'name' must not be null or empty");
+    }
+}
