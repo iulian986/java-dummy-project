@@ -8,12 +8,24 @@ public class Client {
     }
 
     public String greeting(String name) {
+        validateName(name);
+
+        boolean even = service.isEven(name.length());
+        String greeting = formatGreeting(name);
+        return applyFormatting(greeting, even);
+    }
+
+    private void validateName(String name) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("'name' must not be null or empty");
         }
+    }
 
-        boolean even = service.isEven(name.length());
-        String greeting = "Hello, %s".formatted(name);
+    private String formatGreeting(String name) {
+        return "Hello, %s".formatted(name);
+    }
+
+    private String applyFormatting(String greeting, boolean even) {
         if (even) {
             return greeting.toUpperCase();
         } else {
