@@ -8,7 +8,7 @@ public class Client {
     }
 
     public String greeting(String name) {
-        if (name == null || name.isBlank()) {
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("'name' must not be null or empty");
         }
 
