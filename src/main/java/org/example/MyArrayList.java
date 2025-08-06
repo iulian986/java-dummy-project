@@ -6,7 +6,7 @@ public class MyArrayList<E> {
     private static final int INITIAL_CAPACITY = 10;
     private Object[] elementData;
     private int size = 0;
-
+//test test
     public MyArrayList() {
         elementData = new Object[INITIAL_CAPACITY];
     }
